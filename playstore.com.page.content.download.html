@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>App Store · Premium UI</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ----- MAIN CARD (mobile-first) ----- */
+        .app-card {
+            max-width: 420px;
+            width: 100%;
+            height: 100vh;
+            max-height: 100vh;
+            background: #ffffff;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.10), 0 8px 24px rgba(0, 0, 0, 0.04);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 24px 20px 20px;
+            backdrop-filter: blur(2px);
+            display: flex;
+            flex-direction: column;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .app-card::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .app-card {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* ============================================
+           TOP FLEX ROW: LEFT = APP LOGO + NAME
+           ============================================ */
+        .top-flex-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* LEFT SIDE: app logo + TikTok name */
+        .app-logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(145deg, #3030e3, #f9d507);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            flex-shrink: 0;
+        }
+
+        .app-icon i {
+            font-size: 34px;
+            color: white;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .app-title {
+            display: flex;
+            flex-direction: column;
+            line-height: .5;
+        }
+
+        .app-title h1 {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .app-title .sub {
+            font-size: 13px;
+            font-weight: 500;
+            color: #6c6c70;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* RIGHT SIDE: 666W.com + Developer Name + In-App (vertical) */
+        .dev-info-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+            background: #f8f8fc;
+            padding: 4px 12px 4px 14px;
+            border-radius: 40px;
+            border: 1px solid #efeff4;
+            flex-shrink: 0;
+            min-width: 140px;
+        }
+
+        .dev-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1c1c1e;
+        }
+
+        .dev-row i {
+            color: #007aff;
+            font-size: 13px;
+        }
+
+        .dev-name-label {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1c1c1e;
+        }
+
+        .inapp-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #3a3a3c;
+            background: #e9e9ef;
+            padding: 2px 14px 2px 12px;
+            border-radius: 30px;
+        }
+
+        .inapp-row i {
+            color: #007aff;
+            font-size: 12px;
+        }
+
+        /* ----- STATS ROW (three in one line) ----- */
+        .stats-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            margin: 8px 0 5px;
+            background: #ffffff;
+            padding: 3px 5px;
+            border-radius: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 2px 6px;
+            border-right: 1px solid #efeff4;
+            font-weight: 400;
+            color: #1c1c1e;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .stat-item .stars {
+            color: #ffb800;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .stat-item .score {
+            font-weight: 700;
+            font-size: 17px;
+            color: #1c1c1e;
+        }
+
+        .stat-item .reviews {
+            font-size: 13px;
+            color: #6c6c70;
+            font-weight: 450;
+        }
+
+        .stat-item i {
+            color: #007aff;
+            font-size: 14px;
+        }
+
+        .stat-item .download-num {
+            font-weight: 600;
+        }
+
+        .stat-item .age-icon {
+            color: #6c6c70;
+            font-size: 13px;
+        }
+
+        .stat-divider {
+            color: #c6c6c8;
+            font-weight: 300;
+            font-size: 18px;
+        }
+
+        /* ----- QUICK INSTALL ----- */
+        .quick-install {
+            margin: 6px 0 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #007d4b;
+            border-radius: 20px;
+            border: 1px solid #eaeaef;
+        }
+
+        .quick-install .label {
+            font-weight: 500;
+            font-size: 13px;
+            color: #b2df00;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-install .label i {
+            color: #ffee00;
+        }
+
+        .quick-install .download-btn {
+            color: white;
+            border: none;
+            padding: 6px 8px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            cursor: default;
+        }
+
+        .quick-install .download-btn i {
+            font-size: 16px;
+        }
+
+        /* ----- SHARE & WISHLIST ----- */
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin: 0px 0 4px;
+            flex-wrap: wrap;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0px 8px 0px 8px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #33a000;
+            font-size: 15px;
+            border: 1px solid transparent;
+        }
+
+        .action-item i {
+            color: #39b400;
+            font-size: 16px;
+        }
+
+        /* ===== IMAGE GRID SECTION (3 images with 2x height) ===== */
+        .image-grid-section {
+            margin: 12px 0 14px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .grid-item {
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 1 / 2;
+            background: #f0f0f5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.02);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* responsive for mobile */
+        @media (max-width: 480px) {
+            .image-grid {
+                gap: 8px;
+            }
+            .grid-item {
+                border-radius: 12px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .image-grid {
+                gap: 6px;
+            }
+            .grid-item {
+                border-radius: 10px;
+            }
+        }
+
+        /* ----- ABOUT ----- */
+        .about-section {
+            margin: 6px 0 16px;
+        }
+
+        .about-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: #585858;
+            margin-bottom: 6px;
+        }
+
+        .about-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #3a3a3c;
+            padding: 16px 18px;
+            border-radius: 28px;
+        }
+
+        /* =============================================
+           SECTION 1: Info items 
+           ============================================= */
+        .info-section {
+            display: flex;
+            gap: 12px;
+            margin: 14px 0 16px;
+            background: #ffffff;
+            padding: 6px 0;
+        }
+
+        .info-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f8fc;
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid #efeff4;
+        }
+
+        .info-item i {
+            font-size: 28px;
+            color: #007aff;
+            width: 40px;
+            text-align: center;
+        }
+
+        .info-item h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1c1c1e;
+            margin: 0;
+        }
+
+        .info-item p {
+            font-size: 12px;
+            color: #6c6c70;
+            margin: 2px 0 0;
+        }
+
+        /* =============================================
+           SECTION 2: Feature grid 
+           ============================================= */
+        .feature-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 0 0 16px;
+            background: #ffffff;
+            padding: 4px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #f8f8fc;
+            padding: 14px 8px;
+            border-radius: 16px;
+            border: 1px solid #efeff4;
+            text-align: center;
+        }
+
+        .feature-item i {
+            font-size: 24px;
+            color: #007aff;
+        }
+
+        .feature-item span {
+            font-size: 12px;
+            font-weight: 500;
+            color: #1c1c1e;
+        }
+
+        /* responsive */
+        @media (max-width: 480px) {
+            .info-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .info-item {
+                padding: 10px 14px;
+            }
+            .feature-section {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            .feature-item {
+                padding: 12px 8px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .info-item i {
+                font-size: 24px;
+                width: 32px;
+            }
+            .info-item h4 {
+                font-size: 14px;
+            }
+            .feature-item i {
+                font-size: 20px;
+            }
+            .feature-item span {
+                font-size: 11px;
+            }
+        }
+
+        /* =============================================
+           FIXED BOTTOM BAR - OUTSIDE CARD
+           ============================================= */
+        .bottom-bar-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            padding: 10px 0 12px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e5e5ea;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+            z-index: 9999;
+            max-width: 420px;
+            width: 100%;
+            border-radius: 0 0 32px 32px;
+            pointer-events: auto;
+        }
+
+        .bottom-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #6c6c70;
+            transition: 0.15s;
+            padding: 4px 12px;
+            border-radius: 30px;
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
+
+        .bottom-item i {
+            font-size: 22px;
+            color: #6c6c70;
+            transition: 0.15s;
+        }
+
+        .bottom-item.active {
+            color: #007aff;
+        }
+
+        .bottom-item.active i {
+            color: #007aff;
+        }
+
+        .bottom-item.active .label {
+            color: #007aff;
+        }
+
+        .bottom-item .label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+        }
+
+        .bottom-item:hover {
+            background: #f0f0f5;
+        }
+
+        /* Add padding to card bottom so content doesn't hide behind fixed bar */
+        .app-card {
+            padding-bottom: 80px;
+        }
+
+        /* responsive */
+        @media (max-width: 480px) {
+            .app-card {
+                padding: 20px 16px 70px;
+            }
+            .top-flex-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .app-logo-group {
+                flex: 1;
+            }
+            .dev-info-group {
+                align-items: flex-start;
+                width: 100%;
+                padding: 8px 14px;
+                border-radius: 30px;
+            }
+            .dev-row {
+                font-size: 14px;
+            }
+            .inapp-row {
+                font-size: 12px;
+            }
+            .stats-row {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 4px 12px;
+                padding: 8px 12px;
+            }
+            .stat-divider {
+                display: none;
+            }
+            .quick-install {
+                flex-direction: column;
+                gap: 2px;
+                align-items: stretch;
+                padding: 3px 0px 0px 3px;
+            }
+            .quick-install .download-btn {
+                justify-content: center;
+                padding: 2px;
+            }
+            .action-row {
+                gap: 12px;
+            }
+            .bottom-bar-fixed {
+                padding: 8px 0 10px;
+                border-radius: 0;
+                max-width: 100%;
+                left: 0;
+                transform: none;
+            }
+            .bottom-item {
+                padding: 4px 8px;
+            }
+            .bottom-item i {
+                font-size: 20px;
+            }
+            .cloud-tag {
+                align-self: stretch;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .app-icon {
+                width: 46px;
+                height: 46px;
+            }
+            .app-icon i {
+                font-size: 26px;
+            }
+            .app-title h1 {
+                font-size: 22px;
+            }
+            .stat-item .score {
+                font-size: 15px;
+            }
+            .bottom-item i {
+                font-size: 18px;
+            }
+            .bottom-bar-fixed {
+                padding: 6px 0 8px;
+            }
+            .app-card {
+                padding: 20px 16px 65px;
+            }
+        }
+
+        i {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <!-- MAIN CARD -->
+    <div class="app-card">
+
+        <!-- ==========================================================
+        TOP FLEX ROW: LEFT = APP LOGO + TIKTOK NAME
+        RIGHT = 666W.com | Developer Name | In-App (vertical)
+        ========================================================== -->
+        <div class="top-flex-row">
+            <!-- LEFT SIDE: app logo + name -->
+            <div class="app-logo-group">
+                <div class="app-icon">
+                    <i class="">9x</i>
+                </div>
+                <div class="app-title">
+                    <div class="sub" style="position: relative; display: grid; align-items: center; gap: 4px;">
+                        <span class="dev-name-label">9xxx.com</span>
+                        <i class=""></i><p style="color: rgb(44, 177, 0);"> DEVELOPER NAME</p>
+                        <i class=""></i> In-App purchases
+                    </div>
+                </div>
+            </div>
+            <!-- RIGHT SIDE: 666W.com + Developer Name + In-App (vertical) -->
+        </div>
+
+        <!-- ==========================================================
+        STATS ROW: three items in one line
+        ========================================================== -->
+        <div class="stats-row">
+            <!-- 1: rating -->
+            <div class="stat-item" style="position: relative; display: grid; align-items: center; gap: 4px;">
+                <span class="score">5.0★</span>
+                <p class="reviews">2067 Reviews</p>
+            </div>
+
+            <span class="stat-divider">·</span>
+            <!-- 2: downloads -->
+            <div class="stat-item" style="position: relative; display: grid; align-items: center; gap: 4px;">
+                <span class="download-num">15576+</span>
+                <span style="font-weight: 400; color: #6c6c70;">Downloads</span>
+            </div>
+
+            <span class="stat-divider">·</span>
+            <!-- 3: age -->
+            <div class="stat-item" style="position: relative; display: grid; align-items: center; gap: 0px;">
+                <span style="font-weight: 600;">18+</span>
+                <span style="font-weight: 400; color: #6c6c70;">Age or above</span>
+            </div>
+        </div>
+
+       <!-- ========== QUICK INSTALL ========== -->
+<a href="https://9x-bet.com" target="_blank" style="text-decoration: none; display: block;">
+    <div class="quick-install" style="position: relative; display: grid; align-items: center; gap: 0px; justify-content: center; cursor: pointer;">
+        <span class="label"><i class="fas fa-bolt"></i> Quick Installation</span>
+        <span class="download-btn"><i class="fas fa-arrow-down"></i> Download in 10s</span>
+    </div>
+</a>
+
+        <!-- ========== SHARE & WISHLIST ========== -->
+        <div class="action-row">
+            <span class="action-item"><i class="fas fa-share-alt"></i> Share</span>
+            <span class="action-item"><i class="fas fa-heart"></i> Add to wishlist</span>
+        </div>
+
+        <!-- ========== GRID SECTION WITH 3 IMAGES ========== -->
+        <div class="image-grid-section">
+            <div class="image-grid">
+                <div class="grid-item">
+                    <img src="1.webp" alt="Image 1" />
+                </div>
+                <div class="grid-item">
+                    <img src="2.webp" alt="Image 2" />
+                </div>
+                <div class="grid-item">
+                    <img src="3.webp" alt="Image 3" />
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== ABOUT ========== -->
+        <div class="about-section">
+            <div class="about-title">About this app</div>
+            <div class="about-text">
+                The world's top online entertainment center, a 10-year classic brand.
+                Excellent quality, carefully crafted! Tens of thousands of players are
+                online at the same time every day, and you can compete with players
+                from all over the country anytime and anywhere.
+            </div>
+        </div>
+
+        <!-- ========== SECTION 1 ========== -->
+        <div class="info-section">
+            <div class="info-item">
+                <i class="fas fa-trophy"></i>
+                <div>
+                    <h4>Top Rated</h4>
+                    <p>4.9+ average rating</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-users"></i>
+                <div>
+                    <h4>Active Community</h4>
+                    <p>10M+ daily players</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SECTION 2 ========== -->
+        <div class="feature-section">
+            <div class="feature-item">
+                <i class="fas fa-crown"></i>
+                <span>VIP Rewards</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure & Safe</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-rocket"></i>
+                <span>Fast Loading</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-headset"></i>
+                <span>24/7 Support</span>
+            </div>
+        </div>
+
+        <!-- tiny footer -->
+        <div style="margin-top: 12px; font-size: 11px; color: #8e8e93; text-align: center; padding-bottom: 12px; opacity: 0.6; letter-spacing: 0.3px;">
+            <i class="fas fa-shield-alt"></i> 18+ · 10-year classic
+        </div>
+    </div>
+
+    <!-- ========== BOTTOM BAR - FIXED OUTSIDE CARD ========== -->
+    <div class="bottom-bar-fixed">
+        <div class="bottom-item active">
+            <i class="fas fa-gamepad"></i>
+            <span class="label">Games</span>
+        </div>
+        <div class="bottom-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span class="label">App</span>
+        </div>
+        <div class="bottom-item">
+            <i class="fas fa-film"></i>
+            <span class="label">Movie</span>
+        </div>
+        <div class="bottom-item">
+            <i class="fas fa-book"></i>
+            <span class="label">Book</span>
+        </div>
+        <div class="bottom-item">
+            <i class="fas fa-child"></i>
+            <span class="label">Child</span>
+        </div>
+    </div>
+</body>
+</html>
